@@ -1,6 +1,7 @@
 body {
   top: 0;
   left: 0;
+  right: 0;
   margin: 0;
   background-color: white;
   height: 1200px;
@@ -89,15 +90,17 @@ body {
   font-weight: bold;
 }
 
+#object-description {
+  font-style: italic;
+  padding-left: 10px;
+}
+
 li {
   list-style-type: none;
 }
 
 #object-images {
   display: inline-block;
-  height: 100%;
-  vertical-align: middle;
-  padding-right: 25px;
 }
 
 #object-details {
