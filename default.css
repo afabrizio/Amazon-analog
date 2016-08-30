@@ -36,13 +36,14 @@ body {
 
 #search-input {
   display: inline-block;
+  color: black;
   padding: 5px;
   width: 50%;
 }
 
 #search-string {
   width: 80%;
-  font-size: 14pt;
+  font-size: 12pt;
   padding-left: 10px;
 }
 
