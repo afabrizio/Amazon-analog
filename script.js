@@ -19,6 +19,10 @@ function addDataElement(index) {
   var elementDetailsDiv = document.createElement('div');
   elementDetailsDiv.id = 'object-details';
   dataElement.appendChild(elementDetailsDiv);
+  var cartDiv = document.createElement('button');
+  cartDiv.id = 'add-to-cart';
+  cartDiv.className = 'fa fa-cart-plus fa-2x added';
+  dataElement.appendChild(cartDiv);
 
   var objectImage = document.createElement('img');
   objectImage.src = theData[index].image;

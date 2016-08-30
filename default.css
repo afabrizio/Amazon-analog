@@ -9,12 +9,11 @@ body {
 
 #navbar {
   width: 100%;
-  height: 50px;
+  height: 75px;
   top: 0;
   margin-right: auto;
   margin-left: auto;
   margin-bottom: 10px;
-  padding-bottom: 15px;
   display: block;
   color: white;
   font-size: 14pt;
@@ -28,18 +27,51 @@ body {
 }
 
 #logo {
-  display: inline-block;
+  position: absolute;
+  width: 25%;
+  height: 75px;
+  line-height: 75px;
   text-align: center;
-  padding: 5px;
   font-size: 20pt;
-  margin-left: 20px;
+  padding: 5px;
+  color: white;
 }
 
 #search-input {
-  display: inline-block;
+  position: absolute;
+  height: 75px;
+  line-height: 75px;
+  width: 50%;
   color: black;
   padding: 5px;
-  width: 50%;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+}
+
+#cart {
+  position: absolute;
+  width: 10%;
+  padding: 5px;
+  right: 20px;
+  top: 0;
+  bottom: 0;
+  text-align: center;
+}
+
+#view-cart {
+  position: relative;
+  background-color: rgba(50,50,50,1);
+  color: white;
+  width: 50px;
+  border-style: solid;
+  border-color: orange;
+  border-width: 2px;
+  border-radius: 5px;
+  padding: 0;
+  top: 10px;
 }
 
 #search-string {
@@ -54,20 +86,20 @@ body {
   position: relative;
   display: inline-block;
   background-color: orange;
+  border-radius: 5px;
 }
 
 #search-string {
   display: inline-block;
   border-style: solid;
-  border-color: white;
+  border-color: orange;
   border-width: 1px;
-  border-top-left-radius: 10px;
-  border-bottom-left-radius: 10px;
+  border-radius: 10px;
   height: 20px;
 }
 
 #data-elements {
-  top: 50px;
+  top: 75px;
   display: block;
   position: relative;
   margin-right: auto;
@@ -82,6 +114,9 @@ body {
   margin-top: 15px;
   position: relative;
   display: block;
+  border-bottom-style: solid;
+  border-bottom-color: gray;
+  border-bottom-width: 1px;
 }
 
 #object-name {
@@ -100,11 +135,31 @@ li {
 }
 
 #object-images {
-  display: inline-block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  height: 100px;
+  margin: auto;
 }
 
 #object-details {
   position: relative;
-  display: inline-block;
-  max-width: 80%;
+  right: 0;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  max-width: 75%;
+  min-width: 10%;
+  padding-left: 10px;
+}
+
+#add-to-cart {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  height: 40px;
+  margin: auto;
 }
