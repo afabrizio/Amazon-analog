@@ -112,7 +112,7 @@ function updateCartIcon(qty) {
 }
 
 //this function populates the cart one item at a time.
-function addCartElement(index) {
+function addCartElement(index, cartIndex) {
   var dataElement = document.createElement('div');// created a parent <div> for each data object;
   dataElement.id = 'data-element';
 
@@ -132,7 +132,7 @@ function addCartElement(index) {
 
   var cartQty = document.createElement('span');
   cartQty.id = 'item-qty';
-  cartQty.textContent = 'QTY: ' + cart[index].qty;
+  cartQty.textContent = 'QTY: ' + cart[cartIndex].qty;
   dataElement.appendChild(cartQty);
 
   var objectImage = document.createElement('img');
@@ -168,14 +168,14 @@ function goToCart() { //this function calls swap and passes it the relevant argu
   swap('data-elements', 'my-cart');
   //also, populate the cart in the DOM:
   for(var i=0; i<cart.length; i++) {
-    addCartElement(parseInt(cart[i].itemId));
+    addCartElement(parseInt(cart[i].itemId), i);
   }
   updateOrderSummary();
 }
 
 function swap(hide, activate) {
-  var hideElement = document.getElementById(hide); console.log(hideElement);
-  var activateElement = document.getElementById(activate); console.log(activateElement);
+  var hideElement = document.getElementById(hide);
+  var activateElement = document.getElementById(activate);
   hideElement.classList.remove('active'); //removes the active class name.
   hideElement.className += " hidden"; //adds the hidden class name.
   parentElement = hideElement.parentNode;
@@ -194,7 +194,7 @@ function getOrderSubtotal() {
     var price = theData[id].price; //price is a string in the format $0.00
     price = price.replace('$',''); //gets rid of the $ character.
     price = Number(price);
-    sum += sum + price;
+    sum += price;
     if (cart[i].qty > 1) { //accounts for qty>1 of a particular item:
       var qty = cart[i].qty; //qty of item.
       sum = sum + (price*(qty-1));
