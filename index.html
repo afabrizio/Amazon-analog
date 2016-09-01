@@ -4,11 +4,11 @@
     <meta charset="utf-8">
     <link href="default.css" type="text/css" rel="stylesheet">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" type="text/css" rel="stylesheet"/>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"> -->
     <title>Amazon</title>
   </head>
   <body>
-    <div id = "navbar">
+    <div id = "navbar" class="active">
       <div id="logo">amazon.drugs</div>
       <div id="search-input">
         <input type="text" id="search-string"/>
@@ -18,7 +18,16 @@
         <button type="button" id="view-cart" class="fa fa-stack-2x fa-shopping-cart"> 0</button>
       </div>
     </div>
-    <div id="data-elements">
+    <div id="data-elements" class="active">
+    </div>
+    <div id="my-cart" class="hidden">
+      <div id="title">
+        <span>My Cart</span>
+      </div>
+      <div id="cart-items" class="hidden"></div>
+      <div id="cart-summary" class="hidden">
+        <span>Order Summary</span>
+      </div>
     </div>
     <script src="data.js"></script>
     <script src="script.js"></script>
