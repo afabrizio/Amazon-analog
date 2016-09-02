@@ -164,27 +164,54 @@ function addCartElement(index, cartIndex) {
   cartItems.appendChild(dataElement);
 }
 
-function goToCart() { //this function calls swap and passes it the relevant arguments to display the cart.
-  swap('data-elements', 'my-cart');
-  //also, populate the cart in the DOM:
-  for(var i=0; i<cart.length; i++) {
+function goToCart() { //this function deletes the obsolete content of the cart, then takes the user to the current cart.
+  swapVisibility('data-elements', 'my-cart'); //step 1: toggles visibility.
+  while(document.getElementById('cart-items').firstChild) { //step-2: removes all obsolete cart items.
+    document.getElementById('cart-items').removeChild(document.getElementById('cart-items').firstChild);
+  }
+  for(var i=0; i<cart.length; i++) { //step 3: populates the cart in the DOM with updated items.
     addCartElement(parseInt(cart[i].itemId), i);
   }
-  updateOrderSummary();
+  while(document.getElementById('cart-summary').children[1]) { //step-2: removes all obsolete cart summary details.
+    var redundant = document.getElementById('cart-summary').children[1];
+    redundant.parentNode.removeChild(redundant);
+  }
+  toggleVisibility('cart-items');
+  toggleVisibility('cart-summary'); //make cart-summary visible.
+  updateOrderSummary(); //step 5: updates the order summary in the cart view.
 }
 
-function swap(hide, activate) {
+function swapVisibility(hide, activate) {//swapVisibility() takes two string arguments, which are the IDs of the elements in which visibility states will be toggled:
   var hideElement = document.getElementById(hide);
+  toggleVisibility(hide);
   var activateElement = document.getElementById(activate);
-  hideElement.classList.remove('active'); //removes the active class name.
-  hideElement.className += " hidden"; //adds the hidden class name.
-  parentElement = hideElement.parentNode;
-  parentElement.removeChild(hideElement); //hide the element with the id identified by the 'hide' argument of swap().
-  document.body.appendChild(activateElement); //need some CSS to show this.
+  toggleVisibility(activate);
+}
+
+function toggleVisibility(toggleId) {
+  var toggleElement = document.getElementById(toggleId);
+  if (toggleElement.classList.contains('active')) {
+    toggleElement.classList.remove('active');
+    toggleElement.classList.add('hidden');
+    return;
+  }
+  if (toggleElement.classList.contains('hidden')) {
+    toggleElement.classList.remove('hidden');
+    toggleElement.classList.add('active');
+    return;
+  }
 }
 
 function goToMain() {
-  swap('my-cart', 'data-elements');
+  if (document.getElementById('my-cart').classList.contains('active')){ //hides the cart if it is showing.
+    toggleVisibility('my-cart');
+  }
+  if (document.getElementById('data-elements').classList.contains('hidden')){ //shows the main page data if it is hidden.
+    toggleVisibility('data-elements');
+  }
+  for (var i=0; i<theData.length; i++) {
+    addDataElement(i);
+  }
 }
 
 function getOrderSubtotal() {
@@ -230,6 +257,12 @@ function updateOrderSummary() {
   orderSummary.appendChild(orderDetails); //appends the order details to the Order Summary <div>.
 }
 
+function garbage(elementId) { //expects a string as the parameter.
+  var deleteMe = document.getElementById(elementId);
+  var parent = deleteMe.parentNode;
+  parent.removeChild(deleteMe);
+}
+
 //EVENT LISTENERS
 /* ------Search feature: ------ */
 theSearchButton.addEventListener('click', search);
@@ -264,10 +297,11 @@ document.getElementById('data-elements').addEventListener('click', function() {
     CartButtonToGreen(dataObjectIndex); //changes color of addToCart button to green.
     updateCartIcon(getQty()); //updates the cart icon with the number of items in currently in the cart.
   }
-  //changes addToCart button to green when user adds something to his/her cart.
+
+  //changes addToCart button to green when user adds something to his/her cart by giving it a new class:
   function CartButtonToGreen(itemId) {
     target = event.target;
-    if (target.classList.contains('item-identifier-' + itemId)){
+    if ((target.classList.contains('item-identifier-' + itemId)) && (!target.classList.contains('item-added')) ) {
       target.className += ' item-added';
     }
   }
@@ -278,3 +312,5 @@ document.getElementById('data-elements').addEventListener('click', function() {
 for (var i=0; i<theData.length; i++) {
   addDataElement(i);
 }
+
+//goes through element classes and shows/hides according to class name assigned:
