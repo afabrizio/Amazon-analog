@@ -179,6 +179,7 @@ function goToCart() { //this function deletes the obsolete content of the cart, 
   toggleVisibility('cart-items');
   toggleVisibility('cart-summary'); //make cart-summary visible.
   updateOrderSummary(); //step 5: updates the order summary in the cart view.
+  document.getElementById('remove-from-cart').addEventListener('click', removeItem); //initiates the remove item functionality.
 }
 
 function swapVisibility(hide, activate) {//swapVisibility() takes two string arguments, which are the IDs of the elements in which visibility states will be toggled:
@@ -284,14 +285,7 @@ function addStatement(dataObjectIndex) { //adds statement with qty of specific i
   event.target.parentNode.appendChild(qtyAdded);
 }
 
-//EVENT LISTENERS
-/* ------Search feature: ------ */
-theSearchButton.addEventListener('click', search);
-/* ------View Cart Feature------ */
-document.getElementById('view-cart').addEventListener('click', goToCart);
-document.getElementById('logo').addEventListener('click', goToMain);
-//Listens for an addToCart click:
-document.getElementById('data-elements').addEventListener('click', function() {
+function itemToCart() {
   if (event.target.type === 'submit') {//this conditional checks if the event.target is an addToCart button:
 
     var classNames = event.target.className;
@@ -310,7 +304,7 @@ document.getElementById('data-elements').addEventListener('click', function() {
         CartButtonToGreen(dataObjectIndex); //changes color of addToCart button to green.
         updateCartIcon(getQty()); //updates the cart icon with the number of items in currently in the cart.
 
-        addStatement(dataObjectIndex);
+        addStatement(dataObjectIndex); //displays to user qty of a particular item that is currently in their cart.
 
         return; //exit the function.
       }
@@ -332,8 +326,39 @@ document.getElementById('data-elements').addEventListener('click', function() {
     }
   }
 
-  addStatement(dataObjectIndex);
-});
+  addStatement(dataObjectIndex); //displays to user qty of a particular item that is currently in their cart.
+}
+
+function removeItem() {
+  //gets the theData[] index of the product to be subtracted from the cart:
+  for(var i=0; i<event.target.classList.length; i++) {
+    if (event.target.classList[i].indexOf('item-identifier') !== -1) {
+      var itemId = event.target.classList[i].split('-');
+      var itemId = itemId[2];
+      break;
+    }
+  }
+  //loops through the cart to identify the cart[] index that correlates to the theData[] itemId for the item to be removed:
+  for (var a=0; a<cart.length; a++) {
+    if (cart[a].itemId === itemId){
+      var cartIndex = a; //cartIndex is the index of the item in the cart[] that needs the statement modified.
+      break;
+    }
+  }
+  cart[a].qty = cart[a].qty - 1; //subtract qty from the cart[].qty value.
+  console.log(cart);
+  //Left off here on Friday...(need update screens with new cart[] data.)
+}
+
+
+//EVENT LISTENERS
+/* ------Search feature: ------ */
+theSearchButton.addEventListener('click', search);
+/* ------View Cart Feature------ */
+document.getElementById('view-cart').addEventListener('click', goToCart);
+document.getElementById('logo').addEventListener('click', goToMain);
+//Listens for an addToCart click:
+document.getElementById('data-elements').addEventListener('click', itemToCart);
 
 //ON PAGE LOAD
 //Initially, upon page load, adds all the theData objects on the DOM:
