@@ -275,3 +275,12 @@ li {
 .hidden {
   display: none;
 }
+
+#item-qty-added-to-cart {
+  position: absolute;
+  bottom: 20px;
+  right: 0;
+  color: darkred;
+  font-size: 10pt;
+  text-align: right;
+}
