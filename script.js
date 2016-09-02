@@ -263,6 +263,27 @@ function garbage(elementId) { //expects a string as the parameter.
   parent.removeChild(deleteMe);
 }
 
+function addStatement(dataObjectIndex) { //adds statement with qty of specific item added that is in the cart:
+  if (event.target.parentNode.lastChild.id === 'item-qty-added-to-cart') { //delete obsolete version of this statement.
+    event.target.parentNode.removeChild(event.target.parentNode.lastChild);
+  }
+  var qtyAdded = document.createElement('div');
+  qtyAdded.id = 'item-qty-added-to-cart';
+  var statement = document.createElement('span');
+
+  //loops through the cart to identify the cart[] index that correlates to the theData[] index for the item of interest:
+  for (var a=0; a<cart.length; a++) {
+    if (cart[a].itemId === dataObjectIndex){
+      var cartIndex = a; //cartIndex is the index of the item in the cart[] that needs the statement modified.
+      break;
+    }
+  }
+  var qtyItemInCart = cart[cartIndex].qty;
+  statement.textContent = 'Qty ' + qtyItemInCart + ' of item added to cart.';
+  qtyAdded.appendChild(statement);
+  event.target.parentNode.appendChild(qtyAdded);
+}
+
 //EVENT LISTENERS
 /* ------Search feature: ------ */
 theSearchButton.addEventListener('click', search);
@@ -289,17 +310,7 @@ document.getElementById('data-elements').addEventListener('click', function() {
         CartButtonToGreen(dataObjectIndex); //changes color of addToCart button to green.
         updateCartIcon(getQty()); //updates the cart icon with the number of items in currently in the cart.
 
-        //adds statement with qty of specific item added that is in the cart:
-        if (event.target.parentNode.lastChild.id === 'item-qty-added-to-cart') { //delete obsolete version of this statement.
-          event.target.parentNode.removeChild(event.target.parentNode.lastChild);
-        }
-        var qtyAdded = document.createElement('div');
-        qtyAdded.id = 'item-qty-added-to-cart';
-        var statement = document.createElement('span');
-        var qtyItemInCart = cart[(cart.length-1)].qty;
-        statement.textContent = 'Qty ' + qtyItemInCart + ' of item added to cart.';
-        qtyAdded.appendChild(statement);
-        event.target.parentNode.appendChild(qtyAdded);
+        addStatement(dataObjectIndex);
 
         return; //exit the function.
       }
@@ -311,15 +322,6 @@ document.getElementById('data-elements').addEventListener('click', function() {
     cart.push(newCartItem); //...and appends the object to the end of the cart array.
     CartButtonToGreen(dataObjectIndex); //changes color of addToCart button to green.
     updateCartIcon(getQty()); //updates the cart icon with the number of items in currently in the cart.
-
-    //adds initial statement with qty of specific item added that is in the cart:
-    var qtyAdded = document.createElement('div');
-    qtyAdded.id = 'item-qty-added-to-cart';
-    var statement = document.createElement('span');
-    var qtyItemInCart = cart[(cart.length-1)].qty;
-    statement.textContent = 'Qty ' + qtyItemInCart + ' of item added to cart.';
-    qtyAdded.appendChild(statement);
-    event.target.parentNode.appendChild(qtyAdded);
   }
 
   //changes addToCart button to green when user adds something to his/her cart by giving it a new class:
@@ -329,6 +331,8 @@ document.getElementById('data-elements').addEventListener('click', function() {
       target.className += ' item-added';
     }
   }
+
+  addStatement(dataObjectIndex);
 });
 
 //ON PAGE LOAD
