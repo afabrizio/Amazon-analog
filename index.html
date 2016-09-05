@@ -9,7 +9,7 @@
   </head>
   <body>
     <div id = "navbar" class="active">
-      <div id="logo">amazon.drugs</div>
+      <div id="logo">amazon<span id="drugs">.drugs</span></div>
       <div id="search-input">
         <input type="text" id="search-string"/>
         <button type="button" class="fa fa-search" id="search"></button>
@@ -27,6 +27,18 @@
       <div id="cart-items" class="hidden"></div>
       <div id="cart-summary" class="hidden">
         <span>Order Summary</span>
+      </div>
+    </div>
+    <div id="checkout-container" class="hidden">
+      <div id="checkout-page">
+        <div id="checkout-page-title">
+          <span>Please fill out your <span>Order Information</span> below:</span>
+        </div>
+        <div id="checkout-form-container">
+        </div>
+        <div id="place-your-order">
+          <button type="submit">Place Your Order</button>
+        </div>
       </div>
     </div>
     <script src="data.js"></script>

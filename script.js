@@ -2,7 +2,8 @@
 var theSearchButton = document.getElementById('search');
 var theData = JSON.parse(data); //parses JSON string data to javascript objects.
 var searchMatches = []; // an array that contains 'theData' object indicies of matches identified by search().
-var cart = [];//creates the cart, which is an array of objects, each with two properties, item & item_qty.
+var cart = []; //creates the cart, which is an array of objects, each with two properties, item & item_qty.
+var order = {}; //creates the object that will store the order summary detatils for use upon checkout.
 
 //FUNCTIONS
 //this function takes a number argument, uses the argument to locate an object in the theData array, and adds that object to the DOM.
@@ -126,8 +127,9 @@ function addCartElement(index, cartIndex) {
   dataElement.appendChild(elementDetailsDiv);
 
   var cartButton = document.createElement('button');
+  cartButton.className = 'fa fa-remove added ' + 'item-identifier-' + index.toString(); //stores item identifier as a class in the element, to be referenced for the addToCart feature.
   cartButton.id = 'remove-from-cart';
-  cartButton.className = 'fa fa-minus-circle added ' + 'item-identifier-' + index.toString(); //stores item identifier as a class in the element, to be referenced for the addToCart feature.
+  cartButton.textContent = ' remove';
   dataElement.appendChild(cartButton);
 
   var cartQty = document.createElement('span');
@@ -165,21 +167,41 @@ function addCartElement(index, cartIndex) {
 }
 
 function goToCart() { //this function deletes the obsolete content of the cart, then takes the user to the current cart.
-  swapVisibility('data-elements', 'my-cart'); //step 1: toggles visibility.
-  while(document.getElementById('cart-items').firstChild) { //step-2: removes all obsolete cart items.
+   //step 1: toggles visibility.
+   if (document.getElementById('my-cart').classList.contains('active')){ //if cart is already visible do nothing.
+   }
+   if (document.getElementById('my-cart').classList.contains('hidden')){ //if cart is hidden, make it visible.
+     toggleVisibility('my-cart');
+   }
+   if (document.getElementById('checkout-container').classList.contains('active')) {
+     toggleVisibility('checkout-container');
+   }
+   if (document.getElementById('data-elements').classList.contains('active')){ //hides the main page if it is visible.
+     toggleVisibility('data-elements');
+   }
+
+  //step-2: removes all obsolete cart items.
+  while(document.getElementById('cart-items').firstChild) {
     document.getElementById('cart-items').removeChild(document.getElementById('cart-items').firstChild);
   }
-  for(var i=0; i<cart.length; i++) { //step 3: populates the cart in the DOM with updated items.
+
+  //step 3: populates the cart in the DOM with updated items.
+  for(var i=0; i<cart.length; i++) {
     addCartElement(parseInt(cart[i].itemId), i);
   }
-  while(document.getElementById('cart-summary').children[1]) { //step-2: removes all obsolete cart summary details.
+
+  //step-4: removes all obsolete cart summary details.
+  while(document.getElementById('cart-summary').children[1]) {
     var redundant = document.getElementById('cart-summary').children[1];
     redundant.parentNode.removeChild(redundant);
   }
-  toggleVisibility('cart-items');
-  toggleVisibility('cart-summary'); //make cart-summary visible.
+
   updateOrderSummary(); //step 5: updates the order summary in the cart view.
-  document.getElementById('remove-from-cart').addEventListener('click', removeItem); //initiates the remove item functionality.
+
+//document.getElementById('remove-from-cart').addEventListener('click', removeItem); //BUG: multiple elments with this id, only listens to the first one.
+
+  //Runs if user clicks Checkout button:
+  document.getElementById('checkout-button').addEventListener('click', toCheckout);
 }
 
 function swapVisibility(hide, activate) {//swapVisibility() takes two string arguments, which are the IDs of the elements in which visibility states will be toggled:
@@ -206,6 +228,9 @@ function toggleVisibility(toggleId) {
 function goToMain() {
   if (document.getElementById('my-cart').classList.contains('active')){ //hides the cart if it is showing.
     toggleVisibility('my-cart');
+  }
+  if (document.getElementById('checkout-container').classList.contains('active')) {
+    toggleVisibility('checkout-container');
   }
   if (document.getElementById('data-elements').classList.contains('hidden')){ //shows the main page data if it is hidden.
     toggleVisibility('data-elements');
@@ -235,9 +260,9 @@ function updateOrderSummary() {
   //updates the Order Summary:
   var orderDetails = document.createElement('div');
   orderDetails.id = 'order-details';
-  var NumberOrderItems = document.createElement('span');
-  NumberOrderItems.textContent = 'Items Ordered: ' + getQty();
-  orderDetails.appendChild(NumberOrderItems);
+  var numberOrderItems = document.createElement('span');
+  numberOrderItems.textContent = 'Items Ordered: ' + getQty();
+  orderDetails.appendChild(numberOrderItems);
   var orderSubtotal = document.createElement('span');
   orderSubtotal.textContent = 'Subtotal: $' + getOrderSubtotal().toFixed(2); //toFixed(2) truncates excess decimals.
   orderDetails.appendChild(orderSubtotal);
@@ -256,6 +281,12 @@ function updateOrderSummary() {
 
   var orderSummary = document.getElementById('cart-summary');
   orderSummary.appendChild(orderDetails); //appends the order details to the Order Summary <div>.
+
+  //updates the orderSummary{} object:
+  order.numberItemsOrdered = getQty();
+  order.subtotal = getOrderSubtotal().toFixed(2);
+  order.tax = (.075*getOrderSubtotal()).toFixed(2);
+  order.total = (1.075*getOrderSubtotal()).toFixed(2);
 }
 
 function garbage(elementId) { //expects a string as the parameter.
@@ -286,7 +317,7 @@ function addStatement(dataObjectIndex) { //adds statement with qty of specific i
 }
 
 function itemToCart() {
-  if (event.target.type === 'submit') {//this conditional checks if the event.target is an addToCart button:
+  if (event.target.type === 'submit') { //this conditional checks if the event.target is an addToCart button:
 
     var classNames = event.target.className;
     var classNames = classNames.split(' ');
@@ -330,6 +361,7 @@ function itemToCart() {
 }
 
 function removeItem() {
+  console.log('removing item...');
   //gets the theData[] index of the product to be subtracted from the cart:
   for(var i=0; i<event.target.classList.length; i++) {
     if (event.target.classList[i].indexOf('item-identifier') !== -1) {
@@ -346,8 +378,34 @@ function removeItem() {
     }
   }
   cart[a].qty = cart[a].qty - 1; //subtract qty from the cart[].qty value.
-  console.log(cart);
-  //Left off here on Friday...(need update screens with new cart[] data.)
+  if (cart[a].qty === 0) { //if item qty becomes 0:
+    cart.splice(a,1); //removes the item from the cart[] array.
+    //addStatement(parseInt(itemId)); //updates the statement of particular item qty in cart.
+    //reverses color of addToCart button.
+  }
+  updateCartIcon(getQty()); //updates the cart icon in the navbar to reflect the remeoved item.
+  goToCart();  //re-load the cart page.
+  //reverses color of addToCart button.
+}
+
+function toCheckout() {
+  //modifies visibile content:
+  swapVisibility('my-cart', 'checkout-container');
+
+  var checkoutPage = document.getElementById('checkout-page');
+  var opacity = 0;
+  var id = setInterval(frame, 5);
+
+  function frame() {
+    if (opacity >= 1) {
+      clearInterval(id);
+      return;
+    }
+    else{
+      opacity += .01;
+      checkoutPage.style.backgroundColor = 'rgba(40,44,52,' + opacity + ')';
+    }
+  }
 }
 
 
@@ -365,5 +423,3 @@ document.getElementById('data-elements').addEventListener('click', itemToCart);
 for (var i=0; i<theData.length; i++) {
   addDataElement(i);
 }
-
-//goes through element classes and shows/hides according to class name assigned:

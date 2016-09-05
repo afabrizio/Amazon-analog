@@ -5,6 +5,7 @@ body {
   margin: 0;
   background-color: rgb(236,236,236);
   height: 1200px;
+  font-family: Arial;
 }
 
 #navbar {
@@ -20,8 +21,8 @@ body {
   font-family: Arial;
   border-bottom-style: solid;
   border-bottom-width: 1px;
-  border-bottom-color: rgb(205,32,33);
-  background-color: black;
+  border-bottom-color: rgb(100,148,206);
+  background-color: rgb(40,44,52);
   position: fixed;
   z-index: 2;
 }
@@ -35,6 +36,10 @@ body {
   font-size: 20pt;
   padding: 5px;
   color: white;
+}
+
+#logo > #drugs {
+  color: rgb(100,148,206);
 }
 
 #search-input {
@@ -67,7 +72,7 @@ body {
   color: white;
   width: 50px;
   border-style: solid;
-  border-color: rgb(205,32,33);
+  border-color: rgb(100,148,206);
   border-width: 2px;
   border-radius: 5px;
   padding: 0;
@@ -87,14 +92,14 @@ body {
   left: 0;
   position: relative;
   display: inline-block;
-  background-color: rgb(205,32,33);
+  background-color: rgb(100,148,206);
   border-radius: 5px;
 }
 
 #search-string {
   display: inline-block;
   border-style: solid;
-  border-color: rgb(205,32,33);
+  border-color: rgb(100,148,206);
   border-width: 1px;
   border-radius: 10px;
   height: 20px;
@@ -116,7 +121,7 @@ body {
   position: relative;
   display: block;
   border-bottom-style: solid;
-  border-bottom-color: gray;
+  border-bottom-color: rgba(40,44,52,.3);
   border-bottom-width: 1px;
 }
 
@@ -124,6 +129,7 @@ body {
   padding-left: 10px;
   font-size: 14pt;
   font-weight: bold;
+  color: rgb(60,64,82);
 }
 
 #object-description {
@@ -229,7 +235,7 @@ li {
   width: 20%;
   border-width: 1px;
   border-style: solid;
-  border-color: rgb(205,32,33);
+  border-color: rgb(40,44,52);
   border-radius: 15px;
   background-color: lightgray;
 }
@@ -242,10 +248,8 @@ li {
   text-align: center;
   border-bottom-style: solid;
   border-bottom-width: 1px;
-  border-bottom-color: rgb(205,32,33);
-  border-bottom-right-radius: 5px;
-  border-bottom-left-radius: 5px;
-  background-color: black;
+  border-bottom-color: rgb(100,148,206);
+  background-color: rgb(40,44,52);
   border-top-right-radius: 15px;
   border-top-left-radius: 15px;
   color: white;
@@ -259,9 +263,9 @@ li {
   bottom: 0;
   padding: 5px;
   font-size: 10pt;
-  background-color: black;
+  background-color: rgb(40,44,52);
   border-radius: 5px;
-  border-color: rgb(205,32,33);
+  border-color: rgb(100,148,206);
   border-width: 1px;
   color: white;
 }
@@ -283,4 +287,52 @@ li {
   color: darkred;
   font-size: 10pt;
   text-align: right;
+}
+
+#checkout-container {
+  position: relative;
+  width: 100%;
+  top: 75px;
+  height: 100%;
+  background: lightgray;
+}
+
+#checkout-page {
+  position: absolute;
+  background-color: rgba(40,44,52,0);
+  top: 10%;
+  left: 10%;
+  width: 80%;
+  height: 80%;
+  border-radius: 20px;
+}
+
+#checkout-page-title {
+  color: white;
+  max-width: 90%;
+  margin: auto;
+  font-size: 20pt;
+  text-align: center;
+  padding: 20px;
+}
+
+#checkout-page-title > span > span {
+  color: rgb(100,148,206);
+}
+
+#place-your-order {
+  position: absolute;
+  width: 90%;
+  bottom: 5%;
+  text-align: right;
+}
+
+#place-your-order > button {
+  font-size: 14pt;
+  border-style: solid;
+  border-radius: 5px;
+  border-width: 2px;
+  border-color: rgb(100,148,206);
+  background-color: rgba(40,44,52,0);
+  color: white;
 }
