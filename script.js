@@ -402,7 +402,7 @@ function toCheckout() {
       return;
     }
     else{
-      opacity += .01;
+      opacity += .02;
       checkoutPage.style.backgroundColor = 'rgba(40,44,52,' + opacity + ')';
     }
   }

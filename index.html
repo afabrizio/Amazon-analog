@@ -35,9 +35,57 @@
           <span>Please fill out your <span>Order Information</span> below:</span>
         </div>
         <div id="checkout-form-container">
-        </div>
-        <div id="place-your-order">
-          <button type="submit">Place Your Order</button>
+          <form>
+            <div id="personal-information">
+              <div><u>Personal Information</u></div>
+              <input type="text" id="first-name" name="user-first-name" placeholder="first name"/>
+              <input type="text" id="middle-initial" name="user-middle-initial" placeholder="middle initial"/>
+              <input type="text" id="last-name" name="user-last-name" placeholder="last name"/>
+            </div>
+            <div id="contact-information">
+              <div><u>Contact Information</u></div>
+              <label for="phone" class="fa fa-phone"></label>
+              <input type="text" id="phone" name="user-phone" placeholder="phone (XXX)-XXX-XXXX"/>
+              <label for="email" class="fa fa-envelope-o"></label>
+              <input type="email" id="email" name="user-email" placeholder="user@domain.com"/>
+            </div>
+            <div id="billing-information">
+              <div><u>Payment Information</u></div>
+              <label for="payment" class="fa fa-credit-card"></label>
+              <input type="text" id="payment" name="user-payment" placeholder="CARD # XXXX-XXXX-XXXX-XXXX"/>
+              <label for="payment-verify">SVC</label>
+              <input type="text" id="payment-verify" name="user-payment-verify" placeholder="XXX"/>
+              <div>
+                <label for="payment-expiration">Expiration Date</label>
+                <input type="date" id="payment-expiration" name="user-payment-expires"/>
+              </div>
+            </div>
+            <div id="shipping-information">
+              <div><u>Shipping Information</u></div>
+              <div id="ship-to">
+                <label for="shipping-address"></label>
+                <input type="text" id="shipping-address" name="user-ship-to" placeholder="full name"/>
+              </div>
+              <div id="ship-company">
+                <label for="shipping-company"></label>
+                <input type="text" id="shipping-company" name="user-shipping-company" placeholder="company"/>
+              </div>
+              <div id="address">
+                <label for="ship-address"></label>
+                <input type="text" id="ship-address" name="user-ship-address" placeholder="address"/>
+              </div>
+              <div id="ship-city">
+                <label for="city"></label>
+                <input type="text" id="city" name="user-city" placeholder="city"/>
+                <label for="zip"></label>
+                <input type="text" id="zip" name="user-zip" placeholder="zip"/>
+              </div>
+
+            </div>
+            <div id="place-your-order">
+              <button type="submit">Place Your Order</button>
+            </div>
+          </form>
         </div>
       </div>
     </div>

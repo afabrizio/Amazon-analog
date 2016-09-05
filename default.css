@@ -257,6 +257,7 @@ li {
 
 #checkout-button {
   text-align: center;
+  position: relative;
   display: block;
   width: 80%;
   margin: auto;
@@ -268,12 +269,14 @@ li {
   border-color: rgb(100,148,206);
   border-width: 1px;
   color: white;
+  bottom: 5px;
 }
 
 #order-details > span {
   display: block;
   padding-left: 15px;
   padding-bottom: 10px;
+  padding-top: 10px;
 }
 
 .hidden {
@@ -312,7 +315,7 @@ li {
   max-width: 90%;
   margin: auto;
   font-size: 20pt;
-  text-align: center;
+  text-align: left;
   padding: 20px;
 }
 
@@ -321,18 +324,43 @@ li {
 }
 
 #place-your-order {
-  position: absolute;
+  position: relative;
   width: 90%;
   bottom: 5%;
   text-align: right;
 }
 
 #place-your-order > button {
-  font-size: 14pt;
+  font-size: 12pt;
+  padding: 10px;
   border-style: solid;
   border-radius: 5px;
   border-width: 2px;
   border-color: rgb(100,148,206);
-  background-color: rgba(40,44,52,0);
+  background-color: rgb(40,44,52);
   color: white;
+}
+
+#checkout-form-container {
+  width: 90%;
+  margin: auto;
+  border-style: solid;
+  border-width: 1px;
+  border-color: white;
+  border-radius: 3px;
+  background-color: lightgray;
+  font-size: 10pt;
+  color: rgb(40,44,52);
+}
+
+#checkout-form-container > form {
+  position: relative;
+  width: 96%;
+  height: 96%;
+  margin: auto;
+  top: 2%;
+}
+
+form > div {
+  padding-top: 15px;
 }
