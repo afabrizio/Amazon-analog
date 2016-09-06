@@ -18,7 +18,7 @@
         <button type="button" id="view-cart" class="fa fa-stack-2x fa-shopping-cart"> 0</button>
       </div>
     </div>
-    <div id="data-elements" class="active">
+    <div id="product-list" class="active">
     </div>
     <div id="my-cart" class="hidden">
       <div id="title">
@@ -34,7 +34,31 @@
         <div id="checkout-page-title">
           <span>Please fill out your <span>Order Information</span> below:</span>
         </div>
-        <div id="checkout-form-container">
+        <div id="checkout-order-summary-container">
+          <div id="order-summary">
+              <div>
+                <div class="heading">Ordered</div>
+                <div id="items-of-order" class="payload"></div>
+              </div>
+              <div>
+                <div class="heading">Subtotal</div>
+                <div id="subtotal-of-order" class="payload"></div>
+              </div>
+              <div>
+                <div class="heading">Tax</div>
+                <div id="tax-of-order" class="payload"></div>
+              </div>
+              <div>
+                <div class="heading">Shipping</div>
+                <div id="shipping-of-order" class="payload"></div>
+              </div>
+              <div>
+                <div class="heading">Total</div>
+                <div id="total-of-order" class="payload"></div>
+              </div>
+          </div>
+        </div>
+        <div class="checkout-form-container">
           <form>
             <div id="personal-information">
               <div><u>Personal Information</u></div>

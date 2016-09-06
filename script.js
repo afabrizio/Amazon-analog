@@ -6,50 +6,47 @@ var cart = []; //creates the cart, which is an array of objects, each with two p
 var order = {}; //creates the object that will store the order summary detatils for use upon checkout.
 
 //FUNCTIONS
-//this function takes a number argument, uses the argument to locate an object in the theData array, and adds that object to the DOM.
-function addDataElement(index) {
-  var dataElement = document.createElement('div');// created a parent <div> for each data object;
-  dataElement.id = 'data-element';
-
-  //sets up columns of each searchResultElement.
+// this function takes an object from theData aas the argument, builds a DOM element representing that item, and returns a reference to that created DOM element.
+function product(item) {
+  var productElement = document.createElement('div');// created a parent <div> for each set of product attributes to be displayed in;
+  productElement.classList.add('data-element');
+  //sets up columns of each searchResultElement:
   var elementImageDiv = document.createElement('div');
-  elementImageDiv.id = 'object-images';
-  dataElement.appendChild(elementImageDiv);
+  elementImageDiv.classList.add('product-images');
+  productElement.appendChild(elementImageDiv);
   var elementDetailsDiv = document.createElement('div');
-  elementDetailsDiv.id = 'object-details';
-  dataElement.appendChild(elementDetailsDiv);
+  elementDetailsDiv.classList.add('product-details');
+  productElement.appendChild(elementDetailsDiv);
   var cartButton = document.createElement('button');
-  cartButton.id = 'add-to-cart';
-  cartButton.className = 'fa fa-cart-plus fa-2x added ' + 'item-identifier-' + index.toString(); //stores item identifier as a class in the element, to be referenced for the addToCart feature.
-  dataElement.appendChild(cartButton);
+  cartButton.className = 'fa fa-cart-plus fa-2x added add-to-cart item-identifier-' + (item.id-1); //stores item identifier as a class in the element, to be referenced for the addToCart feature.
+  productElement.appendChild(cartButton);
 
-  var objectImage = document.createElement('img');
-  objectImage.src = theData[index].image;
-  elementImageDiv.appendChild(objectImage);
+  var productImage = document.createElement('img');
+  productImage.src = item.image;
+  elementImageDiv.appendChild(productImage);
 
-  var objectName = document.createElement('span');
-  objectName.id = 'object-name';
-  objectName.textContent = theData[index].name;
-  elementDetailsDiv.appendChild(objectName);
+  var productName = document.createElement('span');
+  productName.classList.add('product-name');
+  productName.textContent = item.name;
+  elementDetailsDiv.appendChild(productName);
 
-  var objectDescription = document.createElement('p');
-  objectDescription.id = "object-description";
-  objectDescription.textContent = theData[index].description;
-  elementDetailsDiv.appendChild(objectDescription);
+  var productDescription = document.createElement('p');
+  productDescription.classList.add('product-description');
+  productDescription.textContent = item.description;
+  elementDetailsDiv.appendChild(productDescription);
 
-  var objectDetails = document.createElement('ul');
-  elementDetailsDiv.appendChild(objectDetails);
+  var productDetails = document.createElement('ul');
+  elementDetailsDiv.appendChild(productDetails);
 
-  var objectSeller = document.createElement('li');
-  objectSeller.textContent = 'Seller: ' + theData[index].seller;
-  objectDetails.appendChild(objectSeller);
+  var productSeller = document.createElement('li');
+  productSeller.textContent = 'Seller: ' + item.seller;
+  productDetails.appendChild(productSeller);
 
-  var objectCost = document.createElement('li');
-  objectCost.textContent = 'Price: ' + theData[index].price;
-  objectDetails.appendChild(objectCost);
+  var productCost = document.createElement('li');
+  productCost.textContent = 'Price: ' + item.price;
+  productDetails.appendChild(productCost);
 
-  var dataElements = document.getElementById('data-elements'); //created reference to where each dataElement will be appended to.
-  dataElements.appendChild(dataElement);
+  return productElement;
 }
 
 function search() {
@@ -84,15 +81,15 @@ function match(index) {
 
 function updateResults() {
   for (var i=0; i<searchMatches.length; i++) {
-    addDataElement(searchMatches[i]);
+    productList.appendChild(product(theData[searchMatches[i]]));
   }
 }
 
 //Clear elements from the DOM:
 function clearResults() {
-  var dataElements = document.getElementById('data-elements');
-  while (dataElements.firstChild) {
-    dataElements.removeChild(dataElements.firstChild);
+  var productList = document.getElementById('product-list');
+  while (productList.firstChild) {
+    productList.removeChild(productList.firstChild);
   }
   searchMatches.length = 0; //Clear the SearchMatches array
 }
@@ -113,57 +110,56 @@ function updateCartIcon(qty) {
 }
 
 //this function populates the cart one item at a time.
-function addCartElement(index, cartIndex) {
-  var dataElement = document.createElement('div');// created a parent <div> for each data object;
-  dataElement.id = 'data-element';
+function addCartElement(item, qty) {
+  var product = document.createElement('div');// created a parent <div> for each data object;
+  product.classList.add('data-element');
 
   //sets up columns of each searchResultElement.
-  var elementImageDiv = document.createElement('div');
-  elementImageDiv.id = 'object-images';
-  dataElement.appendChild(elementImageDiv);
+  var productImageDiv = document.createElement('div');
+  productImageDiv.classList.add('product-images');
+  product.appendChild(productImageDiv);
 
-  var elementDetailsDiv = document.createElement('div');
-  elementDetailsDiv.id = 'object-details';
-  dataElement.appendChild(elementDetailsDiv);
+  var productDetailsDiv = document.createElement('div');
+  productDetailsDiv.classList.add('product-details');
+  product.appendChild(productDetailsDiv);
 
   var cartButton = document.createElement('button');
-  cartButton.className = 'fa fa-remove added ' + 'item-identifier-' + index.toString(); //stores item identifier as a class in the element, to be referenced for the addToCart feature.
-  cartButton.id = 'remove-from-cart';
+  cartButton.className = 'fa fa-remove added ' + 'item-identifier-' + (item.id-1); //stores item identifier as a class in the product, to be referenced for the addToCart feature.
+  cartButton.classList.add('remove-from-cart');
   cartButton.textContent = ' remove';
-  dataElement.appendChild(cartButton);
+  product.appendChild(cartButton);
 
   var cartQty = document.createElement('span');
-  cartQty.id = 'item-qty';
-  cartQty.textContent = 'QTY: ' + cart[cartIndex].qty;
-  dataElement.appendChild(cartQty);
+  cartQty.classList.add('item-qty');
+  cartQty.textContent = 'QTY: ' + qty;
+  product.appendChild(cartQty);
 
-  var objectImage = document.createElement('img');
-  objectImage.src = theData[index].image;
-  elementImageDiv.appendChild(objectImage);
+  var productImage = document.createElement('img');
+  productImage.src = item.image;
+  productImageDiv.appendChild(productImage);
 
-  var objectName = document.createElement('span');
-  objectName.id = 'object-name';
-  objectName.textContent = theData[index].name;
-  elementDetailsDiv.appendChild(objectName);
+  var productName = document.createElement('span');
+  productName.classList.add('product-name');
+  productName.textContent = item.name;
+  productDetailsDiv.appendChild(productName);
 
-  var objectDescription = document.createElement('p');
-  objectDescription.id = "object-description";
-  objectDescription.textContent = theData[index].description;
-  elementDetailsDiv.appendChild(objectDescription);
+  var productDescription = document.createElement('p');
+  productDescription.classList.add('product-description');
+  productDescription.textContent = item.description;
+  productDetailsDiv.appendChild(productDescription);
 
-  var objectDetails = document.createElement('ul');
-  elementDetailsDiv.appendChild(objectDetails);
+  var productDetails = document.createElement('ul');
+  productDetailsDiv.appendChild(productDetails);
 
-  var objectSeller = document.createElement('li');
-  objectSeller.textContent = 'Seller: ' + theData[index].seller;
-  objectDetails.appendChild(objectSeller);
+  var productSeller = document.createElement('li');
+  productSeller.textContent = 'Seller: ' + item.seller;
+  productDetails.appendChild(productSeller);
 
-  var objectCost = document.createElement('li');
-  objectCost.textContent = 'Price: ' + theData[index].price;
-  objectDetails.appendChild(objectCost);
+  var productCost = document.createElement('li');
+  productCost.textContent = 'Price: ' + item.price;
+  productDetails.appendChild(productCost);
 
-  var cartItems = document.getElementById('cart-items'); //created reference to where each dataElement will be appended to.
-  cartItems.appendChild(dataElement);
+  return product;
 }
 
 function goToCart() { //this function deletes the obsolete content of the cart, then takes the user to the current cart.
@@ -176,8 +172,8 @@ function goToCart() { //this function deletes the obsolete content of the cart, 
    if (document.getElementById('checkout-container').classList.contains('active')) {
      toggleVisibility('checkout-container');
    }
-   if (document.getElementById('data-elements').classList.contains('active')){ //hides the main page if it is visible.
-     toggleVisibility('data-elements');
+   if (document.getElementById('product-list').classList.contains('active')){ //hides the main page if it is visible.
+     toggleVisibility('product-list');
    }
 
   //step-2: removes all obsolete cart items.
@@ -186,8 +182,10 @@ function goToCart() { //this function deletes the obsolete content of the cart, 
   }
 
   //step 3: populates the cart in the DOM with updated items.
+  var cartItems = document.getElementById('cart-items');
   for(var i=0; i<cart.length; i++) {
-    addCartElement(parseInt(cart[i].itemId), i);
+    var cartItem = addCartElement(theData[parseInt(cart[i].itemId)], cart[i].qty);
+    cartItems.appendChild(cartItem);
   }
 
   //step-4: removes all obsolete cart summary details.
@@ -198,10 +196,14 @@ function goToCart() { //this function deletes the obsolete content of the cart, 
 
   updateOrderSummary(); //step 5: updates the order summary in the cart view.
 
-//document.getElementById('remove-from-cart').addEventListener('click', removeItem); //BUG: multiple elments with this id, only listens to the first one.
-
   //Runs if user clicks Checkout button:
   document.getElementById('checkout-button').addEventListener('click', toCheckout);
+
+  //Listens for clicks to remove items from cart:
+  var itemsInCart = document.querySelectorAll('button.remove-from-cart');
+  for (var i=0; i<itemsInCart.length; i++) {
+    itemsInCart[i].addEventListener('click', removeItem);
+  }
 }
 
 function swapVisibility(hide, activate) {//swapVisibility() takes two string arguments, which are the IDs of the elements in which visibility states will be toggled:
@@ -226,17 +228,19 @@ function toggleVisibility(toggleId) {
 }
 
 function goToMain() {
-  if (document.getElementById('my-cart').classList.contains('active')){ //hides the cart if it is showing.
+  //Toggles Visibility to show only the main content:
+  if (document.getElementById('my-cart').classList.contains('active')) {
     toggleVisibility('my-cart');
   }
   if (document.getElementById('checkout-container').classList.contains('active')) {
     toggleVisibility('checkout-container');
   }
-  if (document.getElementById('data-elements').classList.contains('hidden')){ //shows the main page data if it is hidden.
-    toggleVisibility('data-elements');
+  if (document.getElementById('product-list').classList.contains('hidden')){
+    toggleVisibility('product-list');
   }
+
   for (var i=0; i<theData.length; i++) {
-    addDataElement(i);
+    product(theData[i]);
   }
 }
 
@@ -310,13 +314,19 @@ function addStatement(dataObjectIndex) { //adds statement with qty of specific i
       break;
     }
   }
-  var qtyItemInCart = cart[cartIndex].qty;
-  statement.textContent = 'Qty ' + qtyItemInCart + ' of item added to cart.';
-  qtyAdded.appendChild(statement);
-  event.target.parentNode.appendChild(qtyAdded);
+
+  //Updates statement after an item is removed from the cart:
+  for (var i=0; i < cart.length; i++) {
+    if (cart[i].itemId === dataObjectIndex) {
+      var qtyItemInCart = cart[cartIndex].qty;
+      statement.textContent = 'Qty ' + qtyItemInCart + ' of item added to cart.';
+      qtyAdded.appendChild(statement);
+      event.target.parentNode.appendChild(qtyAdded);
+    }
+  }
 }
 
-function itemToCart() {
+function itemToCart(event) {
   if (event.target.type === 'submit') { //this conditional checks if the event.target is an addToCart button:
 
     var classNames = event.target.className;
@@ -332,7 +342,7 @@ function itemToCart() {
     for (var i=0; i<cart.length; i++) { //loops through cart to check if item already exists in cart:
       if(cart[i].itemId === dataObjectIndex) { //if item already is in the cart...
         cart[i].qty += 1; //...increment the qty.
-        CartButtonToGreen(dataObjectIndex); //changes color of addToCart button to green.
+        lightCartButton(dataObjectIndex); //changes color of addToCart button to green.
         updateCartIcon(getQty()); //updates the cart icon with the number of items in currently in the cart.
 
         addStatement(dataObjectIndex); //displays to user qty of a particular item that is currently in their cart.
@@ -345,12 +355,12 @@ function itemToCart() {
     newCartItem.itemId = dataObjectIndex; //...gives it new properties...
     newCartItem.qty = 1;
     cart.push(newCartItem); //...and appends the object to the end of the cart array.
-    CartButtonToGreen(dataObjectIndex); //changes color of addToCart button to green.
+    lightCartButton(dataObjectIndex); //changes color of addToCart button to green.
     updateCartIcon(getQty()); //updates the cart icon with the number of items in currently in the cart.
   }
 
   //changes addToCart button to green when user adds something to his/her cart by giving it a new class:
-  function CartButtonToGreen(itemId) {
+  function lightCartButton(itemId) {
     target = event.target;
     if ((target.classList.contains('item-identifier-' + itemId)) && (!target.classList.contains('item-added')) ) {
       target.className += ' item-added';
@@ -360,8 +370,7 @@ function itemToCart() {
   addStatement(dataObjectIndex); //displays to user qty of a particular item that is currently in their cart.
 }
 
-function removeItem() {
-  console.log('removing item...');
+function removeItem(event) {
   //gets the theData[] index of the product to be subtracted from the cart:
   for(var i=0; i<event.target.classList.length; i++) {
     if (event.target.classList[i].indexOf('item-identifier') !== -1) {
@@ -380,18 +389,34 @@ function removeItem() {
   cart[a].qty = cart[a].qty - 1; //subtract qty from the cart[].qty value.
   if (cart[a].qty === 0) { //if item qty becomes 0:
     cart.splice(a,1); //removes the item from the cart[] array.
-    //addStatement(parseInt(itemId)); //updates the statement of particular item qty in cart.
-    //reverses color of addToCart button.
+    //removes the class 'item-added'now that item is no longer in the cart:
+    var productCartButton = document.getElementsByClassName('item-identifier-' + itemId);
+    productCartButton[0].classList.remove('item-added');
+    addStatement(parseInt(itemId)); //updates the statement of particular item qty in cart.
   }
-  updateCartIcon(getQty()); //updates the cart icon in the navbar to reflect the remeoved item.
-  goToCart();  //re-load the cart page.
-  //reverses color of addToCart button.
+
+  //updates the cart icon in the navbar to reflect the remeoved item.
+  updateCartIcon(getQty());
+
+  //deletes the statement for that product, since it is now obsolete:
+  var dataElement = document.getElementsByClassName('item-identifier-' + itemId)[0].parentNode;
+  if (dataElement.lastChild.id === 'item-qty-added-to-cart') {
+    dataElement.removeChild(dataElement.lastChild);
+  }
+
+  //re-loads the cart page.
+  goToCart();
 }
 
 function toCheckout() {
+  //displays order summary details:
+  document.getElementById('items-of-order').textContent = order.numberItemsOrdered + ' items';
+  document.getElementById('subtotal-of-order').textContent = '$' + order.subtotal;
+  document.getElementById('tax-of-order').textContent = '$' + order.tax;
+  document.getElementById('shipping-of-order').textContent = 'FREE';
+  document.getElementById('total-of-order').textContent = '$' + order.total;
   //modifies visibile content:
   swapVisibility('my-cart', 'checkout-container');
-
   var checkoutPage = document.getElementById('checkout-page');
   var opacity = 0;
   var id = setInterval(frame, 5);
@@ -406,6 +431,7 @@ function toCheckout() {
       checkoutPage.style.backgroundColor = 'rgba(40,44,52,' + opacity + ')';
     }
   }
+
 }
 
 
@@ -416,10 +442,11 @@ theSearchButton.addEventListener('click', search);
 document.getElementById('view-cart').addEventListener('click', goToCart);
 document.getElementById('logo').addEventListener('click', goToMain);
 //Listens for an addToCart click:
-document.getElementById('data-elements').addEventListener('click', itemToCart);
+var productList = document.getElementById('product-list');
+productList.addEventListener('click', itemToCart);
 
 //ON PAGE LOAD
 //Initially, upon page load, adds all the theData objects on the DOM:
 for (var i=0; i<theData.length; i++) {
-  addDataElement(i);
+  productList.appendChild(product(theData[i]));
 }

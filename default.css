@@ -105,7 +105,7 @@ body {
   height: 20px;
 }
 
-#data-elements {
+#product-list {
   top: 75px;
   position: relative;
   margin-right: auto;
@@ -116,7 +116,7 @@ body {
   font-family: Arial;
 }
 
-#data-element {
+.data-element {
   margin-top: 15px;
   position: relative;
   display: block;
@@ -125,14 +125,14 @@ body {
   border-bottom-width: 1px;
 }
 
-#object-name {
+#product-name {
   padding-left: 10px;
   font-size: 14pt;
   font-weight: bold;
   color: rgb(60,64,82);
 }
 
-#object-description {
+#product-description {
   font-style: italic;
   padding-left: 10px;
 }
@@ -141,7 +141,7 @@ li {
   list-style-type: none;
 }
 
-#object-images {
+.product-images {
   position: absolute;
   left: 0;
   top: 0;
@@ -150,7 +150,7 @@ li {
   margin: auto;
 }
 
-#object-details {
+.product-details {
   position: relative;
   right: 0;
   left: 0;
@@ -162,7 +162,7 @@ li {
   padding-left: 10px;
 }
 
-#add-to-cart {
+.add-to-cart {
   position: absolute;
   right: 0;
   top: 0;
@@ -171,7 +171,7 @@ li {
   margin: auto;
 }
 
-#remove-from-cart {
+.remove-from-cart {
   position: absolute;
   right: 0;
   top: 0;
@@ -181,7 +181,7 @@ li {
   background-color: rgba(205,32,33,.5);
 }
 
-#item-qty {
+.item-qty {
   display: block;
   position: absolute;
   right: 0;
@@ -325,9 +325,10 @@ li {
 
 #place-your-order {
   position: relative;
-  width: 90%;
-  bottom: 5%;
+  width: 96%;
+  bottom: 0;
   text-align: right;
+  margin: 10px;
 }
 
 #place-your-order > button {
@@ -341,7 +342,7 @@ li {
   color: white;
 }
 
-#checkout-form-container {
+.checkout-form-container {
   width: 90%;
   margin: auto;
   border-style: solid;
@@ -353,14 +354,48 @@ li {
   color: rgb(40,44,52);
 }
 
-#checkout-form-container > form {
-  position: relative;
-  width: 96%;
-  height: 96%;
-  margin: auto;
-  top: 2%;
+.checkout-form-container > form {
+  padding: 10px;
 }
 
-form > div {
-  padding-top: 15px;
+#checkout-order-summary-container {
+  width: 90%;
+  margin: auto;
+  border-style: solid;
+  border-width: 1px;
+  border-color: lightgray;
+  border-radius: 3px;
+  background-color: lightgray;
+  font-size: 10pt;
+  color: rgb(40,44,52);
+  margin-bottom: 5%;
+}
+
+#order-summary {
+  background-color: rgb(40,44,52);
+  text-align: center;
+  padding: 15px;
+}
+
+#order-summary > div {
+  display: inline-block;
+  position: relative;
+  width: 18%;
+  color: white;
+}
+
+#order-summary > div > .heading {
+  padding: 10px;
+  color: lightgray;
+  font-size: 16pt;
+}
+
+#order-summary > div > .payload {
+  padding: 10px;
+  background-color: lightgray;
+  border-style: solid;
+  border-width: 1px;
+  border-color: white;
+  font-size: 12pt;
+  color: rgb(100,148,206);
 }
