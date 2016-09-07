@@ -434,34 +434,30 @@ function toCheckout() {
 function showMenu() {
   //Toggles Visibility to display the menu below the navbar:
   toggleVisibility('menu-bar');
-  var menuPaths = document.getElementsByClassName('menu-path');
-  for(var i=0; i<menuPaths.length; i++) {
-    menuPaths[i].addEventListener('mouseover', lightPath);
-    menuPaths[i].addEventListener('mouseout', unLightPath);
-    menuPaths[i].addEventListener('click', followPath);
-  }
-
-  function lightPath(event) {
-    event.target.classList.add('lit');
-  }
-
-  function unLightPath(event) {
-    event.target.classList.remove('lit');
-  }
-
-  function followPath(event) {
-    if(event.target.textContent === 'Main') {
-      goToMain();
-    }
-    if(event.target.textContent === 'My Cart') {
-      goToCart();
-    }
-    if(event.target.textContent === 'Order History') {
-      console.log('No order history code exists yet...');
-    }
-  }
 }
 
+function lightPath(event) {
+  event.target.classList.add('lit');
+}
+
+function unLightPath(event) {
+  event.target.classList.remove('lit');
+}
+
+function followPath(event) {
+  if(event.target.textContent === 'Main') {
+    goToMain();
+    toggleVisibility('menu-bar');
+  }
+  if(event.target.textContent === 'My Cart') {
+    goToCart();
+    toggleVisibility('menu-bar');
+  }
+  if(event.target.textContent === 'Order History') {
+    console.log('No order history code exists yet...');
+    toggleVisibility('menu-bar');
+  }
+}
 
 //EVENT LISTENERS
 document.getElementById('search').addEventListener('click', search);
@@ -469,6 +465,12 @@ document.getElementById('view-cart').addEventListener('click', goToCart);
 document.getElementById('logo').addEventListener('click', goToMain);
 document.getElementById('product-list').addEventListener('click', itemToCart);
 document.getElementById('menu-icon').addEventListener('click', showMenu);
+//this for loop adds event listeners to the menu paths:
+for(var i=0; i<document.getElementsByClassName('menu-path').length; i++) {
+  document.getElementsByClassName('menu-path')[i].addEventListener('mouseover', lightPath);
+  document.getElementsByClassName('menu-path')[i].addEventListener('mouseout', unLightPath);
+  document.getElementsByClassName('menu-path')[i].addEventListener('click', followPath);
+}
 
 //ON PAGE LOAD
 //Initially, upon page load, adds all the theData objects on the DOM main page:
