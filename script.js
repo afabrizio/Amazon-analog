@@ -1,85 +1,84 @@
-//GLOBAL VARIABLES
-var theSearchButton = document.getElementById('search');
+//GLOBAL VARIABLES//
 var theData = JSON.parse(data); //parses JSON string data to javascript objects.
-var searchMatches = []; // an array that contains 'theData' object indicies of matches identified by search().
-var cart = []; //creates the cart, which is an array of objects, each with two properties, item & item_qty.
+var cart = []; //creates the cart[] array and assigns a reference to it.
 var order = {}; //creates the object that will store the order summary detatils for use upon checkout.
 
-//FUNCTIONS
-// this function takes an object from theData aas the argument, builds a DOM element representing that item, and returns a reference to that created DOM element.
+//FUNCTIONS//
+//product(item) takes an argument 'item', which is object from theData, and builds a DOM object which displays content about that item, and returns a reference to that newly built DOM element.
 function product(item) {
-  var productElement = document.createElement('div');// created a parent <div> for each set of product attributes to be displayed in;
+  //creates a parent <div> to be a container for the item:
+  var productElement = document.createElement('div');
   productElement.classList.add('data-element');
-  //sets up columns of each searchResultElement:
+  //sets up sub-container <div>s to organize the display content of the item:
   var elementImageDiv = document.createElement('div');
   elementImageDiv.classList.add('product-images');
   productElement.appendChild(elementImageDiv);
   var elementDetailsDiv = document.createElement('div');
   elementDetailsDiv.classList.add('product-details');
   productElement.appendChild(elementDetailsDiv);
+  //creates the add-to-cart button:
   var cartButton = document.createElement('button');
   cartButton.className = 'fa fa-cart-plus fa-2x added add-to-cart item-identifier-' + (item.id-1); //stores item identifier as a class in the element, to be referenced for the addToCart feature.
   productElement.appendChild(cartButton);
-
+  //creates elements that display the item content:
   var productImage = document.createElement('img');
   productImage.src = item.image;
   elementImageDiv.appendChild(productImage);
-
   var productName = document.createElement('span');
   productName.classList.add('product-name');
   productName.textContent = item.name;
   elementDetailsDiv.appendChild(productName);
-
   var productDescription = document.createElement('p');
   productDescription.classList.add('product-description');
   productDescription.textContent = item.description;
   elementDetailsDiv.appendChild(productDescription);
-
   var productDetails = document.createElement('ul');
   elementDetailsDiv.appendChild(productDetails);
-
   var productSeller = document.createElement('li');
   productSeller.textContent = 'Seller: ' + item.seller;
   productDetails.appendChild(productSeller);
-
   var productCost = document.createElement('li');
   productCost.textContent = 'Price: ' + item.price;
   productDetails.appendChild(productCost);
-
+  //returns the reference to the assembled DOM object that represents an item:
   return productElement;
 }
 
+//search() takes no arguments, uses the user search string value, and runs a simple string match operation:
 function search() {
   clearResults(); //first clears the current products from the DOM
   var searchString = document.getElementById('search-string').value; //get user search string
   var searchString = searchString.toLowerCase();//makes string lowerecase
+  var searchMatches = []; // creates an array that contains 'theData' object indicies of matches identified by search().
   for (var i=0; i<theData.length; i++) { //indexes through objects in theData array.
     for (var property in theData[i]) { //indexes through each property of each data array object.
       var propertyString = theData[i][property].toString();
       var propertyString = propertyString.toLowerCase(); //makes string lowercase.
       if (searchString.indexOf(propertyString) !== -1) {
-        match(i); //store index of the object that matches.
+        searchMatches = match(i, searchMatches); //store index of the object that matches.
       }
       if (propertyString.indexOf(searchString) !== -1){
-        match(i); //store index of the object that matches.
+        searchMatches = match(i, searchMatches); //store index of the object that matches.
       }
     }
   }
-  updateResults(); //calls updateResults() to update the DOM with the search results.
+  updateResults(searchMatches); //calls updateResults() to update the DOM with the search results.
 }
 
-//builds/adds-to searchMatches[] array:
-function match(index) {
-  for (var i=0; i<searchMatches.length; i++) { //check for duplicates
+//takes index[a number] and searchMatches[an array], and builds/adds-to searchMatches[] array, then returns the updated searchMatches[] array:
+function match(index, searchMatches) {
+  //first checks if match is already stored in the array:
+  for (var i=0; i<searchMatches.length; i++) {
     if(searchMatches[i] === index) {
       return; //checks for matches, and if a match is found, breaks out of the match function without doing anything.
     }
   }
-  var currentLength = searchMatches.length;
-  searchMatches[currentLength] = index;
+  searchMatches.push(index); //otherwise, appends index to the end of searchMatches[].
+  return searchMatches;
 }
 
-function updateResults() {
+//updateResults(searchMatches) takes searchMatches[an array] as an argument and appends items that match search string to the DOM:
+function updateResults(searchMatches) {
   for (var i=0; i<searchMatches.length; i++) {
     productList.appendChild(product(theData[searchMatches[i]]));
   }
@@ -91,16 +90,6 @@ function clearResults() {
   while (productList.firstChild) {
     productList.removeChild(productList.firstChild);
   }
-  searchMatches.length = 0; //Clear the SearchMatches array
-}
-
-//gets the quantity of items in the cart.
-function getQty() {
-  var cartQty = 0;
-  for (i=0; i<cart.length; i++) {
-    cartQty = cartQty += parseInt(cart[i].qty);
-  }
-  return cartQty;
 }
 
 //updates the qty in the cart icon on the navbar;
@@ -109,7 +98,7 @@ function updateCartIcon(qty) {
   cartQty.textContent = ' ' + qty;
 }
 
-//this function populates the cart one item at a time.
+//addCartElement() takes item[an object] and qty[a number] assembles a DOM object for each product and returns a referemce to that object:
 function addCartElement(item, qty) {
   var product = document.createElement('div');// created a parent <div> for each data object;
   product.classList.add('data-element');
@@ -359,15 +348,24 @@ function itemToCart(event) {
     updateCartIcon(getQty()); //updates the cart icon with the number of items in currently in the cart.
   }
 
-  //changes addToCart button to green when user adds something to his/her cart by giving it a new class:
-  function lightCartButton(itemId) {
-    target = event.target;
-    if ((target.classList.contains('item-identifier-' + itemId)) && (!target.classList.contains('item-added')) ) {
-      target.className += ' item-added';
-    }
-  }
-
   addStatement(dataObjectIndex); //displays to user qty of a particular item that is currently in their cart.
+}
+
+//gets the quantity of items in the cart.
+function getQty() {
+  var cartQty = 0;
+  for (i=0; i<cart.length; i++) {
+    cartQty = cartQty += parseInt(cart[i].qty);
+  }
+  return cartQty;
+}
+
+//changes addToCart button to green when user adds something to his/her cart by giving it a new class:
+function lightCartButton(itemId) {
+  target = event.target;
+  if ((target.classList.contains('item-identifier-' + itemId)) && (!target.classList.contains('item-added')) ) {
+    target.className += ' item-added';
+  }
 }
 
 function removeItem(event) {
@@ -397,7 +395,6 @@ function removeItem(event) {
 
   //updates the cart icon in the navbar to reflect the remeoved item.
   updateCartIcon(getQty());
-
   //deletes the statement for that product, since it is now obsolete:
   var dataElement = document.getElementsByClassName('item-identifier-' + itemId)[0].parentNode;
   if (dataElement.lastChild.id === 'item-qty-added-to-cart') {
@@ -436,17 +433,14 @@ function toCheckout() {
 
 
 //EVENT LISTENERS
-/* ------Search feature: ------ */
-theSearchButton.addEventListener('click', search);
-/* ------View Cart Feature------ */
+document.getElementById('search').addEventListener('click', search);
 document.getElementById('view-cart').addEventListener('click', goToCart);
 document.getElementById('logo').addEventListener('click', goToMain);
-//Listens for an addToCart click:
-var productList = document.getElementById('product-list');
-productList.addEventListener('click', itemToCart);
+document.getElementById('product-list').addEventListener('click', itemToCart);
 
 //ON PAGE LOAD
-//Initially, upon page load, adds all the theData objects on the DOM:
+//Initially, upon page load, adds all the theData objects on the DOM main page:
+var productList = document.getElementById('product-list');
 for (var i=0; i<theData.length; i++) {
   productList.appendChild(product(theData[i]));
 }

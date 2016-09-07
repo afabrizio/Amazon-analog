@@ -142,23 +142,24 @@ li {
 }
 
 .product-images {
-  position: absolute;
+  position: relative;
+  display: inline-block;
   left: 0;
   top: 0;
   bottom: 0;
+  width: 150px;
   height: 100px;
   margin: auto;
 }
 
+.product-images > img {
+  max-width: 150px;
+  height: auto;
+}
+
 .product-details {
   position: relative;
-  right: 0;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  margin: auto;
-  max-width: 75%;
-  min-width: 10%;
+  display: inline-block;
   padding-left: 10px;
 }
 
@@ -356,6 +357,15 @@ li {
 
 .checkout-form-container > form {
   padding: 10px;
+}
+
+form > div {
+  margin-top: 10px;
+}
+
+form > div > div {
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 
 #checkout-order-summary-container {
