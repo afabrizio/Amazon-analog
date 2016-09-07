@@ -70,7 +70,7 @@ function match(index, searchMatches) {
   //first checks if match is already stored in the array:
   for (var i=0; i<searchMatches.length; i++) {
     if(searchMatches[i] === index) {
-      return; //checks for matches, and if a match is found, breaks out of the match function without doing anything.
+      return searchMatches; //checks for matches, and if a match is found, breaks out of the match function without doing anything to searchMatches.
     }
   }
   searchMatches.push(index); //otherwise, appends index to the end of searchMatches[].
@@ -94,8 +94,8 @@ function clearResults() {
 
 //updates the qty in the cart icon on the navbar;
 function updateCartIcon(qty) {
-  cartQty = document.getElementById('view-cart');
-  cartQty.textContent = ' ' + qty;
+  cartQty = document.getElementById('cart-qty');
+  cartQty.textContent = qty;
 }
 
 //addCartElement() takes item[an object] and qty[a number] assembles a DOM object for each product and returns a referemce to that object:
@@ -431,12 +431,44 @@ function toCheckout() {
 
 }
 
+function showMenu() {
+  //Toggles Visibility to display the menu below the navbar:
+  toggleVisibility('menu-bar');
+  var menuPaths = document.getElementsByClassName('menu-path');
+  for(var i=0; i<menuPaths.length; i++) {
+    menuPaths[i].addEventListener('mouseover', lightPath);
+    menuPaths[i].addEventListener('mouseout', unLightPath);
+    menuPaths[i].addEventListener('click', followPath);
+  }
+
+  function lightPath(event) {
+    event.target.classList.add('lit');
+  }
+
+  function unLightPath(event) {
+    event.target.classList.remove('lit');
+  }
+
+  function followPath(event) {
+    if(event.target.textContent === 'Main') {
+      goToMain();
+    }
+    if(event.target.textContent === 'My Cart') {
+      goToCart();
+    }
+    if(event.target.textContent === 'Order History') {
+      console.log('No order history code exists yet...');
+    }
+  }
+}
+
 
 //EVENT LISTENERS
 document.getElementById('search').addEventListener('click', search);
 document.getElementById('view-cart').addEventListener('click', goToCart);
 document.getElementById('logo').addEventListener('click', goToMain);
 document.getElementById('product-list').addEventListener('click', itemToCart);
+document.getElementById('menu-icon').addEventListener('click', showMenu);
 
 //ON PAGE LOAD
 //Initially, upon page load, adds all the theData objects on the DOM main page:

@@ -14,9 +14,20 @@
         <input type="text" id="search-string"/>
         <button type="button" class="fa fa-search" id="search"></button>
       </div>
-      <div id="cart">
-        <button type="button" id="view-cart" class="fa fa-stack-2x fa-shopping-cart"> 0</button>
+      <div id="menu">
+        <i id="menu-icon" class="fa fa-bars fa-2x"></i>
       </div>
+      <div id="cart">
+        <div id="view-cart">
+          <div class="fa fa-shopping-cart"></div>
+          <div id="cart-qty">0</div>
+        </div>
+      </div>
+    </div>
+    <div id="menu-bar" class="hidden">
+      <div class="menu-path">Main</div>
+      <div class="menu-path">My Cart</div>
+      <div class="menu-path">Order History</div>
     </div>
     <div id="product-list" class="active">
     </div>
@@ -109,7 +120,7 @@
 
             </div>
             <div id="place-your-order">
-              <button type="submit">Place Your Order</button>
+              <button type="button">Place Your Order</button>
             </div>
           </form>
         </div>
