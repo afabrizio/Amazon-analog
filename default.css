@@ -10,12 +10,11 @@ body {
 
 #navbar {
   width: 100%;
-  height: 75px;
+  height: 10vmin;
   top: 0;
-  margin-right: auto;
-  margin-left: auto;
-  margin-bottom: 10px;
-  display: block;
+  margin-bottom: 1vmin;
+  display: flex;
+  flex-wrap: wrap;
   font-size: 0;
   border-bottom-style: solid;
   border-bottom-width: 1px;
@@ -27,84 +26,127 @@ body {
 
 #logo {
   position: relative;
-  display: inline-block;
-  width: 25%;
-  height: 75px;
-  line-height: 75px;
+  display: flex;
+  align-items: center;
+  margin: 0;
+  max-width: 25%;
+  min-width: 10%;
+  height: 100%;
+  line-height: 100%;
   color: white;
-  font-size: 14pt;
+  font-size: 3.5vmin;
   font-family: Arial;
-  text-align: center;
-  font-size: 20pt;
   color: white;
 }
 
-#logo > #drugs {
+#logo > span {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  padding-left: 1.5vw;
+}
+
+#logo > span > #drugs {
   color: rgb(100,148,206);
 }
 
 #search-input {
   position: relative;
-  display: inline-block;
-  vertical-align: top;
-  height: 75px;
-  line-height: 75px;
+  display: flex;
+  align-items: center;
+  height: 100%;
   width: 50%;
   color: black;
+  padding-left: 1.5vw;
+  margin: 0;
 }
 
 #search-string {
-  transform: translateY(40%);
   width: 80%;
-  font-size: 12pt;
-  padding-left: 10px;
+  font-size: 2vmin;
+  padding-left: 1vw;
+  border-style: solid;
+  border-color: rgb(100,148,206);
+  border-width: 1px;
+  border-top-left-radius: 1.5vmin;
+  border-bottom-left-radius: 1.5vmin;
   background-color: rgb(236,236,236);
 }
 
 #search {
   position: relative;
   display: inline-block;
-  transform: translateY(40%);
   color: white;
-  font-size: 14pt;
+  font-size: 2.2vmin;
   background-color: rgb(100,148,206);
-  border-top-right-radius: 10px;
-  border-bottom-right-radius: 10px;
+  border-top-right-radius: 1.5vmin;
+  border-bottom-right-radius: 1.5vmin;
   border-style: none;
 }
 
 #menu {
   position: relative;
-  display: inline-block;
-  vertical-align: top;
-  height: 75px;
-  line-height: 75px;
+  display: flex;
+  align-items: center;
+  padding-left: 10vw;
   color: white;
-  font-size: 12pt;
-  width: 12.5%;
-  text-align: right;
+  font-size: 2vmin;
+  width: auto;
 }
 
-#menu > i {
-  transform: translateY(20%);
+#cart {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: auto;
+  padding-left: 3vw;
+}
+
+#view-cart {
+  position: relative;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  background-color: rgb(40,44,52);
+  border-style: solid;
+  border-color: rgb(100,148,206);
+  border-width: .3vw;
+  border-radius: 1vmin;
+}
+
+#cart-icon {
+  display: flex;
+  color: white;
+  font-size: 2.5vmin;
+  padding-top: .5vmin;
+  padding-left: 1vmin;
+  padding-right: 1vmin;
+}
+
+#cart-qty {
+  display: flex;
+  align-items: center;
+  color: white;
+  font-size: 1.5vmin;
+  padding: .5vmin;
 }
 
 #menu-bar {
   position: fixed;
-  top: 76px;
+  top: 10vmin;
   right: 0;
   max-width: 25%;
   background-color: white;
   border-style: solid;
   border-width: 2px;
   border-color: gray;
-  opacity: .9;
+  opacity: .95;
   z-index: 2;
 }
 
 #menu-bar > div {
   display: block;
-  font-size: 12pt;
+  font-size: 2vmin;
   letter-spacing: 2px;
   color: gray;
   text-transform: uppercase;
@@ -113,61 +155,11 @@ body {
   border-bottom-style: solid;
   border-bottom-width: 1px;
   border-bottom-color: gray;
-  padding: 15px;
+  padding: 1.5vmin;
 }
 
 .lit {
   background-color: rgba(100,148,206,.3);
-}
-
-#cart {
-  position: relative;
-  display: inline-block;
-  vertical-align: top;
-  height: 75px;
-  width: 12%;
-  text-align: center;
-}
-
-#cart > div {
-  display: block;
-  margin: auto;
-  border-style: solid;
-  border-color: rgb(100,148,206);
-  border-width: 2px;
-  border-radius: 5px;
-  width: 50%;
-  height: 60%;
-  transform: translateY(25%);
-}
-
-#cart > span {
-  color: white;
-  font-size: 14pt;
-}
-
-#view-cart {
-  position: relative;
-  color: white;
-  background-color: rgb(40,44,52);
-  width: 50px;
-  padding: 0;
-  font-size: 18pt;
-}
-
-#cart-qty {
-  color: white;
-  font-size: 12pt;
-}
-
-#search-string {
-  display: inline-block;
-  border-style: solid;
-  border-color: rgb(100,148,206);
-  border-width: 1px;
-  border-top-left-radius: 10px;
-  border-bottom-left-radius: 10px;
-  height: 20px;
 }
 
 #product-list {

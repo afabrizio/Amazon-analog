@@ -9,7 +9,12 @@
   </head>
   <body>
     <div id = "navbar" class="active">
-      <div id="logo">amazon<span id="drugs">.drugs</span></div>
+      <div id="logo">
+        <span>
+          amazon
+          <span id="drugs">.drugs</span>
+        </span>
+      </div>
       <div id="search-input">
         <input type="text" id="search-string"/>
         <button type="button" class="fa fa-search" id="search"></button>
@@ -19,15 +24,15 @@
       </div>
       <div id="cart">
         <div id="view-cart">
-          <div class="fa fa-shopping-cart"></div>
+          <div id="cart-icon" class="fa fa-shopping-cart"></div>
           <div id="cart-qty">0</div>
         </div>
       </div>
     </div>
     <div id="menu-bar" class="hidden">
-      <div class="menu-path">Main</div>
-      <div class="menu-path">My Cart</div>
-      <div class="menu-path">Order History</div>
+      <div id="menu-to-main" class="menu-path">Main</div>
+      <div id="menu-to-cart" class="menu-path">My Cart</div>
+      <div id="menu-to-order-history" class="menu-path">Order History</div>
     </div>
     <div id="product-list" class="active">
     </div>
@@ -70,7 +75,7 @@
           </div>
         </div>
         <div class="checkout-form-container">
-          <form>
+          <form id="order-form">
             <div id="personal-information">
               <div><u>Personal Information</u></div>
               <input type="text" id="first-name" name="user-first-name" placeholder="first name"/>
@@ -120,7 +125,7 @@
 
             </div>
             <div id="place-your-order">
-              <button type="button">Place Your Order</button>
+              <button id="place-order" type="button">Place Your Order</button>
             </div>
           </form>
         </div>

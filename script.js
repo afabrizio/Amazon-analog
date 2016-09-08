@@ -1,7 +1,8 @@
 //GLOBAL VARIABLES//
 var theData = JSON.parse(data); //parses JSON string data to javascript objects.
 var cart = []; //creates the cart[] array and assigns a reference to it.
-var order = {}; //creates the object that will store the order summary detatils for use upon checkout.
+var order = {};
+var orders = []; //creates the object that will store the order summary detatils for use upon checkout.
 
 //FUNCTIONS//
 //product(item) takes an argument 'item', which is object from theData, and builds a DOM object which displays content about that item, and returns a reference to that newly built DOM element.
@@ -459,18 +460,60 @@ function followPath(event) {
   }
 }
 
+function placeOrder() {
+  //gathers details about the order:
+  var recentOrder = {
+    orderNumber: orders.length + 1,
+    numberItemsOrdered: document.getElementById('items-of-order').textContent,
+    itemsOrdered: cart,
+    subtotal: document.getElementById('subtotal-of-order').textContent,
+    tax: document.getElementById('tax-of-order').textContent,
+    shipping: document.getElementById('shipping-of-order').textContent,
+    total: document.getElementById('total-of-order').textContent
+  }
+  //stores details about placed order in orders[]:
+  orders.push(recentOrder);
+  //initializes order{} object:
+  order = {
+    numberItemsOrdered: 0,
+    subtotal: 0,
+    tax: 0,
+    total: 0
+  }
+  //clears cart:
+  cart = [];
+  //resets form fields
+  document.getElementById('order-form').reset();
+  //re-initializes cart icon:
+  updateCartIcon(0);
+  //unlights all the add-to-cart buttons:
+  var clearCartAssociations = document.getElementsByClassName('item-added');
+  var length = clearCartAssociations.length;
+  for (i=0; i<length; i++) {
+    clearCartAssociations[0].classList.remove('item-added');
+  }
+  //redirects
+  goToMain();
+}
+
+function displayOrderHistory() {
+
+}
+
 //EVENT LISTENERS
 document.getElementById('search').addEventListener('click', search);
 document.getElementById('view-cart').addEventListener('click', goToCart);
 document.getElementById('logo').addEventListener('click', goToMain);
 document.getElementById('product-list').addEventListener('click', itemToCart);
 document.getElementById('menu-icon').addEventListener('click', showMenu);
+document.getElementById('place-order').addEventListener('click', placeOrder);
 //this for loop adds event listeners to the menu paths:
 for(var i=0; i<document.getElementsByClassName('menu-path').length; i++) {
   document.getElementsByClassName('menu-path')[i].addEventListener('mouseover', lightPath);
   document.getElementsByClassName('menu-path')[i].addEventListener('mouseout', unLightPath);
   document.getElementsByClassName('menu-path')[i].addEventListener('click', followPath);
 }
+document.getElementById('menu-to-order-history').addEventListener('click', displayOrderHistory);
 
 //ON PAGE LOAD
 //Initially, upon page load, adds all the theData objects on the DOM main page:
