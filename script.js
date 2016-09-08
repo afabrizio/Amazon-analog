@@ -20,6 +20,7 @@ function product(item) {
   //creates the add-to-cart button:
   var cartButton = document.createElement('button');
   cartButton.className = 'fa fa-cart-plus fa-2x added add-to-cart item-identifier-' + (item.id-1); //stores item identifier as a class in the element, to be referenced for the addToCart feature.
+  cartButton.id = 'add-to-cart-button';
   productElement.appendChild(cartButton);
   //creates elements that display the item content:
   var productImage = document.createElement('img');
@@ -116,6 +117,7 @@ function addCartElement(item, qty) {
   var cartButton = document.createElement('button');
   cartButton.className = 'fa fa-remove added ' + 'item-identifier-' + (item.id-1); //stores item identifier as a class in the product, to be referenced for the addToCart feature.
   cartButton.classList.add('remove-from-cart');
+  cartButton.id = 'remove-from-cart-button';
   cartButton.textContent = ' remove';
   product.appendChild(cartButton);
 
