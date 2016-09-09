@@ -292,7 +292,7 @@ li {
   height: auto;
 }
 
-#title {
+#cart-title {
   width: 100%;
   height: auto;
   position: relative;
@@ -300,7 +300,7 @@ li {
   color: black;
 }
 
-#title > span {
+#cart-title > span {
   font-size: 4vmin;
   display: block;
   position: relative;

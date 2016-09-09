@@ -174,18 +174,18 @@ function addCartElement(item, qty) {
 }
 
 function goToCart() { //this function deletes the obsolete content of the cart, then takes the user to the current cart.
-   //step 1: toggles visibility.
-   if (document.getElementById('my-cart').classList.contains('active')){ //if cart is already visible do nothing.
-   }
-   if (document.getElementById('my-cart').classList.contains('hidden')){ //if cart is hidden, make it visible.
-     toggleVisibility('my-cart');
-   }
-   if (document.getElementById('checkout-container').classList.contains('active')) {
-     toggleVisibility('checkout-container');
-   }
-   if (document.getElementById('product-list').classList.contains('active')){ //hides the main page if it is visible.
-     toggleVisibility('product-list');
-   }
+  //step 1: toggles visibility.
+  if (document.getElementById('my-cart').classList.contains('active')){ //if cart is already visible do nothing.
+  }
+  if (document.getElementById('my-cart').classList.contains('hidden')){ //if cart is hidden, make it visible.
+    toggleVisibility('my-cart');
+  }
+  if (document.getElementById('checkout-container').classList.contains('active')) {
+    toggleVisibility('checkout-container');
+  }
+  if (document.getElementById('product-list').classList.contains('active')){ //hides the main page if it is visible.
+    toggleVisibility('product-list');
+  }
 
   //step-2: removes all obsolete cart items.
   while(document.getElementById('cart-items').firstChild) {
@@ -478,7 +478,7 @@ function followPath(event) {
     toggleVisibility('menu-bar');
   }
   if(event.target.textContent === 'Order History') {
-    console.log('No order history code exists yet...');
+    displayOrderHistory();
     toggleVisibility('menu-bar');
   }
 }
@@ -559,7 +559,9 @@ function searchResultsPreview(searchMatches) {
 }
 
 function displayOrderHistory() {
-
+  var active = document.getElementsByClassName('active');
+  console.log(active);
+  toggleVisibility('order-history-container');
 }
 
 function chooseSearchListOption (listClassName) {
@@ -620,7 +622,6 @@ for(var i=0; i<document.getElementsByClassName('menu-path').length; i++) {
   document.getElementsByClassName('menu-path')[i].addEventListener('mouseout', unLightPath);
   document.getElementsByClassName('menu-path')[i].addEventListener('click', followPath);
 }
-document.getElementById('menu-to-order-history').addEventListener('click', displayOrderHistory);
 
 //ON PAGE LOAD
 //Initially, upon page load, adds all the theData objects on the DOM main page:
