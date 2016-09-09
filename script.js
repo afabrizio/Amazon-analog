@@ -48,8 +48,20 @@ function product(item) {
 
 //search() takes 'update' (type:boolean) as an argument, uses the user search string value, and runs a simple string match operation. Returns searchMatches array:
 function search(update) {
+  //toggles visibilities:
+  var activeViews = document.getElementsByClassName('active');
+  for (var i=0; i<activeViews.length; i++) {
+    if (activeViews[i].id !== 'product-list') {
+      toggleVisibility(activeViews[i].id);
+    }
+  }
+  if (document.getElementById('product-list').classList.contains('hidden')) {
+    toggleVisibility('product-list');
+  }
+
+  //first clears the current products from the DOM
   if (update === true) {
-    clearResults(); //first clears the current products from the DOM
+    clearResults();
   }
   var searchString = document.getElementById('search-string').value; //get user search string
   var searchString = searchString.toLowerCase();//makes string lowerecase
@@ -238,8 +250,10 @@ function goToMain() {
     toggleVisibility('product-list');
   }
 
+  clearResults();
+
   for (var i=0; i<theData.length; i++) {
-    product(theData[i]);
+    productList.appendChild(product(theData[i]));
   }
 }
 
@@ -515,6 +529,15 @@ function searchResultsPreview(searchMatches) {
   var previewContainer = document.createElement('div');
   previewContainer.classList.add('active');
   previewContainer.id = 'preview-container';
+  var proTip = document.createElement('div');
+  proTip.textContent = 'press <ESC> to close.';
+  previewContainer.appendChild(proTip);
+  proTip.style.fontSize = '1.2vmin';
+  proTip.style.padding = '.5vmin';
+  proTip.style.fontFamily = 'italic';
+  proTip.style.textAlign = 'center';
+  proTip.style.backgroundColor = 'gray';
+  proTip.style.color = 'white';
   for (var i=0; i<searchMatches.length; i++) {
     var searchMatch = document.createElement('div');
     searchMatch.classList.add('search-match');
@@ -522,7 +545,7 @@ function searchResultsPreview(searchMatches) {
     searchMatch.id = 'preview-item-' + (theData[searchMatches[i]].id-1);
     previewContainer.appendChild(searchMatch);
   }
-  document.body.insertBefore(previewContainer, document.body.children[document.body.children.length -2]);
+  document.body.insertBefore(previewContainer, document.body.children[document.body.children.length-2]);
 
   //deletes previewContainer after user's mouse leaves the container:
   mouseOverCount = 0;
@@ -559,10 +582,18 @@ function chooseSearchListOption (listClassName) {
       previewContainer.parentNode.removeChild(previewContainer);
     });
   }
+  if (document.getElementById('preview-container')) {
+    document.getElementById('preview-container').addEventListener('mouseleave', function() {
+      document.body.removeChild(document.getElementById('preview-container'));
+    });
+  }
 }
 
 //EVENT LISTENERS//
 document.getElementById('search').addEventListener('click', function () {
+  if (document.getElementById('preview-container')) {
+    document.body.removeChild(document.getElementById('preview-container'));
+  }
   search(true);
 });
 //This event listener initiates the search when the enter key is pressed during user input of the search bar:
@@ -570,15 +601,12 @@ document.getElementById('search-string').addEventListener('keyup', function (eve
   var searchMatches = search(false);
   searchResultsPreview(searchMatches);
   chooseSearchListOption('search-match');
-  document.getElementById('search-string').addEventListener('click', function () {
+  event.preventDefault();
+  if (event.keyCode === 13) {
     search(true);
     if (document.getElementById('preview-container')) {
       document.body.removeChild(document.getElementById('preview-container'));
     }
-  });
-  event.preventDefault();
-  if (event.keyCode === 13) {
-    document.getElementById('search-string').click();
   }
 });
 document.getElementById('view-cart').addEventListener('click', goToCart);
