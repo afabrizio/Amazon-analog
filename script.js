@@ -46,25 +46,32 @@ function product(item) {
   return productElement;
 }
 
-//search() takes no arguments, uses the user search string value, and runs a simple string match operation:
-function search() {
-  clearResults(); //first clears the current products from the DOM
+//search() takes 'update' (type:boolean) as an argument, uses the user search string value, and runs a simple string match operation. Returns searchMatches array:
+function search(update) {
+  if (update === true) {
+    clearResults(); //first clears the current products from the DOM
+  }
   var searchString = document.getElementById('search-string').value; //get user search string
   var searchString = searchString.toLowerCase();//makes string lowerecase
   var searchMatches = []; // creates an array that contains 'theData' object indicies of matches identified by search().
   for (var i=0; i<theData.length; i++) { //indexes through objects in theData array.
     for (var property in theData[i]) { //indexes through each property of each data array object.
-      var propertyString = theData[i][property].toString();
-      var propertyString = propertyString.toLowerCase(); //makes string lowercase.
-      if (searchString.indexOf(propertyString) !== -1) {
-        searchMatches = match(i, searchMatches); //store index of the object that matches.
-      }
-      if (propertyString.indexOf(searchString) !== -1){
-        searchMatches = match(i, searchMatches); //store index of the object that matches.
+      if (property !== 'image') {
+        var propertyString = theData[i][property].toString();
+        var propertyString = propertyString.toLowerCase(); //makes string lowercase.
+        if (searchString.indexOf(propertyString) !== -1) {
+          searchMatches = match(i, searchMatches); //store index of the object that matches.
+        }
+        if (propertyString.indexOf(searchString) !== -1){
+          searchMatches = match(i, searchMatches); //store index of the object that matches.
+        }
       }
     }
   }
-  updateResults(searchMatches); //calls updateResults() to update the DOM with the search results.
+  if(update === true) {
+    updateResults(searchMatches); //calls updateResults() to update the DOM with the search results.
+  }
+  return searchMatches;
 }
 
 //takes index[a number] and searchMatches[an array], and builds/adds-to searchMatches[] array, then returns the updated searchMatches[] array:
@@ -498,12 +505,82 @@ function placeOrder() {
   goToMain();
 }
 
+function searchResultsPreview(searchMatches) {
+  //Clears current search preview DOM object if one was created:
+  if (document.getElementById('preview-container')) {
+    var previewContainer = document.getElementById('preview-container');
+    previewContainer.parentNode.removeChild(previewContainer);
+  }
+  //Creates DOM element and appends to the body:
+  var previewContainer = document.createElement('div');
+  previewContainer.classList.add('active');
+  previewContainer.id = 'preview-container';
+  for (var i=0; i<searchMatches.length; i++) {
+    var searchMatch = document.createElement('div');
+    searchMatch.classList.add('search-match');
+    searchMatch.textContent = theData[searchMatches[i]].name;
+    searchMatch.id = 'preview-item-' + (theData[searchMatches[i]].id-1);
+    previewContainer.appendChild(searchMatch);
+  }
+  document.body.insertBefore(previewContainer, document.body.children[document.body.children.length -2]);
+
+  //deletes previewContainer after user's mouse leaves the container:
+  mouseOverCount = 0;
+  previewContainer.addEventListener('mouseover', function() {
+    mouseOverCount++;
+  });
+  //allows user to escape out of search preview:
+  if (event.keyCode === 27) {
+      previewContainer.parentNode.removeChild(previewContainer);
+  }
+}
+
 function displayOrderHistory() {
 
 }
 
-//EVENT LISTENERS
-document.getElementById('search').addEventListener('click', search);
+function chooseSearchListOption (listClassName) {
+  var list = document.getElementsByClassName(listClassName);
+  //this for loop adds event listeners to the individual list options:
+  for(var i=0; i<list.length; i++) {
+    list[i].addEventListener('mouseover', function() {
+      lightPath(event);
+    });
+    list[i].addEventListener('mouseout', function() {
+      unLightPath(event);
+    });
+    list[i].addEventListener('click', function() {
+      var previewItemIndex = event.target.id.split('-');
+      var theDataIndex = previewItemIndex[2];
+      var viewThisProduct = product(theData[theDataIndex]);
+      clearResults();
+      document.getElementById('product-list').appendChild(viewThisProduct);
+      var previewContainer = document.getElementById('preview-container');
+      previewContainer.parentNode.removeChild(previewContainer);
+    });
+  }
+}
+
+//EVENT LISTENERS//
+document.getElementById('search').addEventListener('click', function () {
+  search(true);
+});
+//This event listener initiates the search when the enter key is pressed during user input of the search bar:
+document.getElementById('search-string').addEventListener('keyup', function (event) {
+  var searchMatches = search(false);
+  searchResultsPreview(searchMatches);
+  chooseSearchListOption('search-match');
+  document.getElementById('search-string').addEventListener('click', function () {
+    search(true);
+    if (document.getElementById('preview-container')) {
+      document.body.removeChild(document.getElementById('preview-container'));
+    }
+  });
+  event.preventDefault();
+  if (event.keyCode === 13) {
+    document.getElementById('search-string').click();
+  }
+});
 document.getElementById('view-cart').addEventListener('click', goToCart);
 document.getElementById('logo').addEventListener('click', goToMain);
 document.getElementById('product-list').addEventListener('click', itemToCart);
