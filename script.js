@@ -175,16 +175,16 @@ function addCartElement(item, qty) {
 
 function goToCart() { //this function deletes the obsolete content of the cart, then takes the user to the current cart.
   //step 1: toggles visibility.
-  if (document.getElementById('my-cart').classList.contains('active')){ //if cart is already visible do nothing.
+  var active = document.getElementsByClassName('active');
+  var activeElementIds = [];
+  for (var i=0; i<active.length; i++) {
+    activeElementIds[i] = active[i].id;
   }
-  if (document.getElementById('my-cart').classList.contains('hidden')){ //if cart is hidden, make it visible.
+  for (var i=0; i<activeElementIds.length; i++) {
+    toggleVisibility(activeElementIds[i]);
+  }
+  if (document.getElementById('my-cart').classList.contains('hidden')) {
     toggleVisibility('my-cart');
-  }
-  if (document.getElementById('checkout-container').classList.contains('active')) {
-    toggleVisibility('checkout-container');
-  }
-  if (document.getElementById('product-list').classList.contains('active')){ //hides the main page if it is visible.
-    toggleVisibility('product-list');
   }
 
   //step-2: removes all obsolete cart items.
@@ -240,13 +240,15 @@ function toggleVisibility(toggleId) {
 
 function goToMain() {
   //Toggles Visibility to show only the main content:
-  if (document.getElementById('my-cart').classList.contains('active')) {
-    toggleVisibility('my-cart');
+  var active = document.getElementsByClassName('active');
+  var activeElementIds = [];
+  for (var i=0; i<active.length; i++) {
+    activeElementIds[i] = active[i].id;
   }
-  if (document.getElementById('checkout-container').classList.contains('active')) {
-    toggleVisibility('checkout-container');
+  for (var i=0; i<activeElementIds.length; i++) {
+    toggleVisibility(activeElementIds[i]);
   }
-  if (document.getElementById('product-list').classList.contains('hidden')){
+  if (document.getElementById('product-list').classList.contains('hidden')) {
     toggleVisibility('product-list');
   }
 
@@ -471,15 +473,12 @@ function unLightPath(event) {
 function followPath(event) {
   if(event.target.textContent === 'Main') {
     goToMain();
-    toggleVisibility('menu-bar');
   }
   if(event.target.textContent === 'My Cart') {
     goToCart();
-    toggleVisibility('menu-bar');
   }
   if(event.target.textContent === 'Order History') {
     displayOrderHistory();
-    toggleVisibility('menu-bar');
   }
 }
 
@@ -560,8 +559,16 @@ function searchResultsPreview(searchMatches) {
 
 function displayOrderHistory() {
   var active = document.getElementsByClassName('active');
-  console.log(active);
-  toggleVisibility('order-history-container');
+  var activeElementIds = [];
+  for (var i=0; i<active.length; i++) {
+    activeElementIds[i] = active[i].id;
+  }
+  for (var i=0; i<activeElementIds.length; i++) {
+    toggleVisibility(activeElementIds[i]);
+  }
+  if (document.getElementById('order-history-container').classList.contains('hidden')) {
+    toggleVisibility('order-history-container');
+  }
 }
 
 function chooseSearchListOption (listClassName) {
