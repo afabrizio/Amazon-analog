@@ -1,2 +1,2 @@
-# project-1
-amazon analog
+# Amazon analog
+DOM manipulation using JavaScript
