@@ -4,18 +4,18 @@
   "description": "A front-end app to showcase DOM manipulation using pure JavaScript",
   "main": "app.js",
   "scripts": {
-    "start": "npm install; npm run start;"
+    "start": "npm install; node app.js;"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/afabrizio/Amazon-analog.git"
+    "url": "git+https://github.com/afabrizio/amazon-pharmacy.git"
   },
   "author": "A. Fabrizio",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/afabrizio/Amazon-analog/issues"
+    "url": "https://github.com/afabrizio/amazon-pharmacy/issues"
   },
-  "homepage": "https://github.com/afabrizio/Amazon-analog#readme",
+  "homepage": "https://github.com/afabrizio/amazon-pharmacy#readme",
   "dependencies": {
     "express": "^4.14.0"
   }
